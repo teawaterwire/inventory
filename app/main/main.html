@@ -1,0 +1,47 @@
+
+<h3 class="text-center text-muted">Inventory balade</h3>
+
+<div id="inventory-form" class="row">
+	<div class="col-md-3">
+		<select class="form-control input-lg" name="object-type" ng-model="query['objectType']" ng-change="typeChange()" ng-options="type for type in types">
+			<option value="">Choose object type</option>
+		</select>
+		<ul class="list-group">
+			<li ng-repeat="(label, comp) in subComponents" class="list-group-item" ng-switch="isType(label)">
+				<div ng-switch-when="true">
+					<button class="btn btn-default" ng-click="getSubLabels(label)">{{ label }}</button>
+					<ul ng-show="subLabels[label]" class="list-group">
+						<li class="list-group-item" ng-repeat="(subLabel, val) in subLabels[label]">
+							<input class="form-control" ng-change="fetch(label + '.' + subLabel)" ng-model="query[label + '.' + subLabel]" ngModelOptions="{debounce: 800}" type="text" placeholder="{{ subLabel }}">
+						</li>
+					</ul>
+				</div>
+				<input class="form-control" ng-change="fetch(label)" ng-model="query[label]" ngModelOptions="{debounce: 800}" type="text" ng-switch-default placeholder="{{ label }}">
+			</li>
+		</ul>
+	</div>
+	<div class="col-md-9">
+		<pre class="query-code">query: {{ query }}</pre> 		
+		<div ng-show="error" class="alert alert-danger" role="alert">{{ error }}</div>
+		<div class="alert alert-info text-center" ng-show="results.length === 0">No results. SOWEY.</div>
+		<table class="table">
+			<tr ng-show="results.length">
+				<th ng-repeat="tableField in tableFields[query['objectType']]">
+					<a sort-icon href="" class="{{ sort.predicate.slice(1) === tableField ? 'text-muted' : '' }}"></a>
+					{{ tableField }} 
+				</th>
+			</tr>
+			<tr ng-repeat="result in results | orderBy:sort.predicate" class="item-listing">
+				<td ng-repeat="tableField in tableFields[query['objectType']]" ng-switch="tableField">
+					<span ng-switch-when="last_update">{{ (result[tableField] * 1000) | date:'short' }}</span>
+					<span ng-switch-when="id">
+						<a href="/{{ query['objectType'] }}/{{ tableField }}/{{ result[tableField] }}">{{ result[tableField] }}</a>
+					</span>
+					<span ng-switch-default>{{ result[tableField] }}</span>
+				</td>
+			</tr>
+		</table>	
+	</div>
+</div>
+
+

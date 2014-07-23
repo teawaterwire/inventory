@@ -1,0 +1,11 @@
+<h3 class="text-center text-muted">{{ params.objectType }} { {{ params.idKey }} : {{ params.idValue }} }</h3>
+<h5><a href="/">Return to the Balade</a></h5>
+
+<ul class="list-group" ng-repeat="(field, subValue) in item" ng-if="subValue">
+	<li class="list-group-item" ng-switch="getType(subValue)">
+		<h4>{{ field }}</h4>
+		<sub-table ng-switch-when="Object" values="[subValue]"></sub-table>
+		<sub-table ng-switch-when="Array" values="subValue"></sub-table>
+		<span ng-switch-default>{{ subValue }}</span>
+	</li>
+</ul>

@@ -1,0 +1,27 @@
+#inventory-form
+{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#inventory-form .list-group
+{
+	margin-top: 10px;
+}
+
+.query-code
+{
+	padding: 13px;
+}
+
+.item-listing.ng-enter
+{
+	opacity: 0;
+	-webkit-transition: 0.4s linear all;
+	transition: 0.4s linear all;
+}
+
+.item-listing.ng-enter.ng-enter-active
+{
+	opacity: 1;
+}

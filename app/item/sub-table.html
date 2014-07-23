@@ -1,0 +1,9 @@
+<table class="table">
+	<tr>
+		<th ng-repeat="(k, v) in values[0]">{{ k }}</th>
+	</tr>
+	<tr ng-repeat="el in values">
+		<td ng-repeat="(k, v) in el">{{ v }}</td>
+	</tr>
+</table>	
+
